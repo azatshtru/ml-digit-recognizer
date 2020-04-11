@@ -17,9 +17,12 @@ class neural_network(object):
             a = sigmoid(np.dot(w, a) + b)
         return a
 
-    def initialize_sgd (self, training_data, epochs, mini_batch_size, eta):
+    def initialize_sgd (self, training_data, epochs, mini_batch_size, eta, validation_data = None):
         #training_data is a list of tuples (x, y) where x is the vertical vector/array of input pixel values b/w 0 and 1 and y is
         #desired output array/vector.
+
+        if(validation_data):
+            n_tests = len(validation_data)
 
         n = len(training_data)
         for i in range(epochs):
@@ -28,7 +31,10 @@ class neural_network(object):
             for mini_batch in mini_batches: #mini_batch is an element of mini_batches which are sliced sub-lists of training_data
                 # hence mini_batch is a list of tuples (x, y) with x the input vector, y the desired output vector
                 self.calculate_descent(mini_batch, eta)
-            print(i)
+            if(validation_data):
+                print("Epoch {0} : {1} / {2}".format(i, self.evaluate(validation_data), n_tests))
+            else:
+                print("Epoch {0} complete.".format(i))
     
     def calculate_descent(self, mini_batch, eta):
         nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -70,6 +76,11 @@ class neural_network(object):
             d_nabla_b[-j] = _error
 
         return d_nabla_w, d_nabla_b
+
+    def evaluate(self, test_data):
+        test_results = [np.argmax(self.feed_forward(x), y) for (x, y) in test_data]
+        correct_results = sum([int(x == y) for (x, y) in test_results])
+        return correct_results
 
 def cost_derivative(a, y):
     diff = a - y
