@@ -2,6 +2,7 @@
 
 import random
 import numpy as np
+import pickle
 
 class neural_network(object):
 
@@ -35,6 +36,10 @@ class neural_network(object):
                 print("Epoch {0} : {1} / {2}".format(i, self.evaluate(validation_data), n_tests))
             else:
                 print("Epoch {0} complete.".format(i))
+        with open('minima_weights.pkl', 'wb') as minima_weights:
+            pickle.dump(self.weights, minima_weights)
+        with open('minima_biases.pkl', 'wb') as minima_biases:
+            pickle.dump(self.biases, minima_biases)
     
     def calculate_descent(self, mini_batch, eta):
         nabla_w = [np.zeros(w.shape) for w in self.weights]
@@ -78,8 +83,8 @@ class neural_network(object):
         return d_nabla_w, d_nabla_b
 
     def evaluate(self, test_data):
-        test_results = [np.argmax(self.feed_forward(x), y) for (x, y) in test_data]
-        correct_results = sum([int(x == y) for (x, y) in test_results])
+        test_results = [(np.argmax(self.feed_forward(x)), np.argmax(y)) for (x, y) in test_data]
+        correct_results = sum(int(x == y) for (x, y) in test_results)
         return correct_results
 
 def cost_derivative(a, y):
