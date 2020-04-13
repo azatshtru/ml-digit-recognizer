@@ -26,6 +26,6 @@ mnist.get_training_labels(_label_file, 10000, True)
 validation_datapack = [(x, y) for (x, y) in zip(mnist.validation_images, mnist.validation_labels)]
 
 #using the data to train
-nn = network.neural_network([784, 40, 10])
+nn = network.neural_network([784, 30, 10])
 
-nn.initialize_sgd(training_datapack, 2, 10, 0.07, validation_data=validation_datapack)
+nn.initialize_sgd(training_datapack, 30, 10, 0.07, validation_data=validation_datapack)
