@@ -22,15 +22,15 @@ nn = network.neural_network([784, 30, 10])
 nn.weights = data_weights
 nn.biases = data_biases
 
-def get_test_inputs ():
-    indexer.get_test_images(100)
+def get_test_inputs (num_inputs):
+    indexer.get_test_images(num_inputs)
 
     input_image = int(input("Input the index of the image: "))
     test_sample = indexer.test_images[input_image]
     return test_sample
 
-#test_sample_input = get_test_inputs()
-test_sample_input = indexer.get_pixel_values("test_data_image.png")
+test_sample_input = get_test_inputs(1000)
+#test_sample_input = indexer.get_pixel_values("test_data_image.png")
 
 result_list = nn.feed_forward(test_sample_input)
 

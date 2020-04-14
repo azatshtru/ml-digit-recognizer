@@ -6,6 +6,7 @@ import os
 
 test_images = []
 
+# Input an alpha image.
 def get_pixel_values (img):
     arr = np.zeros((784, 1))
     img_arr = np.zeros((28, 28))
@@ -14,8 +15,8 @@ def get_pixel_values (img):
         pixel_values = list(f.getdata())
 
     for i in range(784):
-        arr.itemset(i, pixel_values[i][0])
-        img_arr.itemset(i, pixel_values[i][0])
+        arr.itemset(i, pixel_values[i])
+        img_arr.itemset(i, pixel_values[i])
 
     _image = Image.fromarray(img_arr)
     _image.show()
